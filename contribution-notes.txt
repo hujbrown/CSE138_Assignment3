@@ -1,0 +1,17 @@
+Overall, we feel that all members contributed fairly. We called many times throughout to discuss our approach to the project. Hunter took initiative for many parts of the program, Alyssa contributed new code and worked to get a minimum viable product working for each step, and Max thoroughly debugged.
+
+The following is a brief timeline of the project:
+Hunter created a skeleton for the code.
+Hunter created untested code for the key-value-store-view endpoint
+Alyssa created untested code for a third endpoint
+Hunter started on causal broadcast implementation
+Hunter started a vector clock functionality
+Alyssa started to debug using Docker to establish a minimum viable product
+Everyone fixed errors
+Hunter added functionality for when replicas start up
+Max thoroughly debugged until everything was working well
+
+Signed,
+Alyssa House
+Hunter Brown
+Maxwell Chow

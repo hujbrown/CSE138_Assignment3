@@ -1,0 +1,13 @@
+###
+This file describes the mechanisms implemented for the causal dependency tracking and detecting that a replica is down
+###
+
+Each replica has a vector clock implemented as a dictionary, called vclock, which stores the address of a replica and its vector clock as key-value pairs. 
+
+Each response from a replica will contain "causal-metadata" included in the response. The client should include the most recent causal metadata it has received in each of its requests.
+
+When a replica receives a PUT request from a client and a key is successfully added or updated, the replica updates vclock by incrementing the vector clock associated with its own address. Then, for each replica in its view, it sends a broadcast (on the "consistency" endpoint) to the other replicas indicating they should update their key-value store to contain the new data.
+
+If another replica fails to respond to the consistency update, the replica sending it will note that replica as down. It will remove it from its view, and send messages to the other replicas to notify them that the replica is down and should also be rmeoved from their views.
+
+When receiving any request, a replica will compare its own vclock with the causal metadata sent with the client. If the replica's vclock is behind any other replica (its value of vclock[a] is less than causal-metadata[a]), indicating that the replica has a newer version of the key-value store, it will query the other replicas to get an updated copy of the key-value store, then update its vclock accordingly, and continue processing the request. This situation occurs when a replica is temporarily down and cannot receive consistency updates from other replicas, then comes back up.
